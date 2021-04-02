@@ -1,151 +1,112 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import FlexLayout from "flexlayout-react";
+import 'flexlayout-react/style/light.css'
+import Game from './game'
 
-function Square(props) {
-    return (
-        <button
-            className="square"
-            onClick={props.onClick}>
-            {props.value}
-        </button>
-    );
-}
-
-class Board extends React.Component {
-    renderSquare(i) {
-        return (
-            < Square
-                value={this.props.squares[i]}
-                onClick={() => { this.props.onClick(i) }}
-            />
-        );
+var layout = {
+    global: { tabEnableRename: false },
+    borders: [
+        {
+            "type": "border",
+            "location": "bottom",
+            "children": [
+                {
+                    "type": "tab",
+                    "enableClose": false,
+                    "name": "Output",
+                    "component": "grid",
+                    "enableDrag": false,
+                },
+                {
+                    "type": "tab",
+                    "enableClose": false,
+                    "name": "Terminal",
+                    "component": "grid",
+                    "enableDrag": false,
+                }
+            ],
+            "selected": "1",
+            "enableDrop": false,
+        },
+        {
+            "type": "border",
+            "location": "left",
+            "children": [
+                {
+                    "type": "tab",
+                    "enableClose": false,
+                    "name": "Navigation",
+                    "component": "button",
+                    "enableDrag": false,
+                }
+            ],
+            "enableDrop": false,
+        },
+    ],
+    layout: {
+        "type": "row",
+        "weight": 100,
+        "children": [
+            {
+                "type": "tabset",
+                "weight": 50,
+                "selected": 0,
+                "children": [
+                    {
+                        "type": "tab",
+                        "name": "Game",
+                        "component": "Game",
+                    },
+                    {
+                        "type": "tab",
+                        "name": "test2",
+                        "component": "button",
+                    }
+                ]
+            },
+            {
+                "type": "tabset",
+                "weight": 50,
+                "selected": 0,
+                "children": [
+                    {
+                        "type": "tab",
+                        "name": "FI",
+                        "component": "button",
+                    }
+                ]
+            },
+        ]
     }
+};
 
-    render() {
-        return (
-            <div>
-                <div className="board-row">
-                    {this.renderSquare(0)}
-                    {this.renderSquare(1)}
-                    {this.renderSquare(2)}
-                </div>
-                <div className="board-row">
-                    {this.renderSquare(3)}
-                    {this.renderSquare(4)}
-                    {this.renderSquare(5)}
-                </div>
-                <div className="board-row">
-                    {this.renderSquare(6)}
-                    {this.renderSquare(7)}
-                    {this.renderSquare(8)}
-                </div>
-            </div>
-        );
-    }
-}
+class Main extends React.Component {
 
-class Game extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            history: [{
-                squares: Array(9).fill(null),
-            }],
-            stepNumber: 0,
-            xIsNext: true,
+        const model = FlexLayout.Model.fromJson(layout);
+        this.state = { model: model };
+    }
+
+    factory = (node) => {
+        var component = node.getComponent();
+        if (component === "button") {
+            return <button>{node.getName()}</button>;
+        }
+        else if (component === "Game") {
+            return <Game />;
         }
     }
-
-    handleClick(i) {
-        const history = this.state.history.slice(0, this.state.stepNumber + 1);
-        const current = history[history.length - 1];
-        const squares = current.squares.slice();
-        if (calculateWinner(squares) || squares[i]) {
-            return;
-        }
-        squares[i] = this.state.xIsNext ? 'X' : 'O';
-        this.setState({
-            history: history.concat([{
-                squares: squares,
-            }]),
-            stepNumber: history.length,
-            xIsNext: !this.state.xIsNext,
-        });
-    }
-
-    jumpTo(step) {
-        this.setState({
-            stepNumber: step,
-            xIsNext: (step % 2) === 0,
-        });
-    }
-
 
     render() {
-        const history = this.state.history;
-        const current = history[this.state.stepNumber];
-        const winner = calculateWinner(current.squares);
-
-        const moves = history.map((step, move) => {
-            const desc = move ?
-                'Go to move #' + move :
-                'Go to game start';
-            return (
-                <li key={move}>
-                    <button onClick={() => this.jumpTo(move)}>{desc}</button>
-                </li>
-            );
-        });
-
-
-        let status;
-        if (winner) {
-            status = 'Winner: ' + winner;
-        } else {
-            status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
-        }
-
         return (
-            <div className="game">
-                <div className="game-board">
-                    <Board
-                        squares={current.squares}
-                        onClick={(i) => this.handleClick(i)}
-                    />
-                </div>
-                <div className="game-info">
-                    <div className="status">{status}</div>
-                    <ol>{moves}</ol>
-                </div>
-            </div>
-        );
+            <FlexLayout.Layout model={this.state.model} factory={this.factory} />
+        )
     }
 }
-
-function calculateWinner(squares) {
-    const lines = [
-        [0, 1, 2],
-        [3, 4, 5],
-        [6, 7, 8],
-        [0, 3, 6],
-        [1, 4, 7],
-        [2, 5, 8],
-        [0, 4, 8],
-        [2, 4, 6],
-    ];
-    for (let i = 0; i < lines.length; i++) {
-        const [a, b, c] = lines[i];
-        if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-            return squares[a];
-        }
-    }
-    return null;
-}
-
-// ========================================
 
 ReactDOM.render(
-    <Game />,
+    <Main />,
     document.getElementById('root')
 );
