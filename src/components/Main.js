@@ -1,6 +1,7 @@
 import React from 'react';
 import FlexLayout from "flexlayout-react";
 import Toolbox from './Toolbox'
+import GettingStarted from './GettingStarted'
 
 var config = {
     global: {
@@ -51,32 +52,14 @@ var config = {
         "children": [
             {
                 "type": "tabset",
-                "id": "TAB1",
                 "weight": 50,
                 "selected": 0,
                 "children": [
                     {
                         "type": "tab",
-                        "name": "button",
-                        "component": "button",
+                        "name": "Getting Started",
+                        "component": "GettingStarted",
                     },
-                    {
-                        "type": "tab",
-                        "name": "test2",
-                        "component": "button",
-                    }
-                ]
-            },
-            {
-                "type": "tabset",
-                "weight": 50,
-                "selected": 0,
-                "children": [
-                    {
-                        "type": "tab",
-                        "name": "FI",
-                        "component": "button",
-                    }
                 ]
             },
         ]
@@ -95,12 +78,13 @@ class Main extends React.Component {
         const maximizedTabset = this.state.model.getMaximizedTabset();
 
         var component = node.getComponent();
-        if (component === "button") {
-            return <button>{node.getName()}</button>;
-        }
-        else if (component === "Toolbox") {
+        if (component === "Toolbox") {
             return <Toolbox layoutRef={this.layoutRef} maximizedTabset={maximizedTabset} />
         }
+        else if (component === "GettingStarted") {
+            return <GettingStarted />
+        }
+
         return null;
     }
 
