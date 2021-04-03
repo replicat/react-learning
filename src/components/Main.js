@@ -3,7 +3,7 @@ import FlexLayout from "flexlayout-react";
 import Toolbox from './Toolbox'
 import GettingStarted from './GettingStarted'
 
-var config = {
+var INITIAL_LAYOUT = {
     global: {
         tabEnableRename: false,
     },
@@ -69,17 +69,17 @@ var config = {
 class Main extends React.Component {
     constructor(props) {
         super(props);
-        const model = FlexLayout.Model.fromJson(config);
+        const model = FlexLayout.Model.fromJson(INITIAL_LAYOUT);
         this.state = { model: model };
         this.layoutRef = React.createRef();
     }
 
     factory = (node) => {
-        const maximizedTabset = this.state.model.getMaximizedTabset();
+        const model = this.state.model;
 
         var component = node.getComponent();
         if (component === "Toolbox") {
-            return <Toolbox layoutRef={this.layoutRef} maximizedTabset={maximizedTabset} />
+            return <Toolbox layoutRef={this.layoutRef} model={model} />
         }
         else if (component === "GettingStarted") {
             return <GettingStarted />
