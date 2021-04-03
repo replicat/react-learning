@@ -1,5 +1,7 @@
+@import '../index.scss';
+
 header{
-    background-color:black;
+    background-color: $pt-intent-primary;
     padding: 5px 20px;
     height: 100%;
 }
