@@ -1,6 +1,5 @@
 import React from 'react';
 import FlexLayout from "flexlayout-react";
-import 'flexlayout-react/style/dark.css'
 import Game from './Game'
 import Navigation from './Navigation'
 
@@ -112,6 +111,7 @@ class Layout extends React.Component {
     render() {
         return (
             <FlexLayout.Layout
+                className="layout"
                 ref={this.layoutRef}
                 model={this.state.model}
                 factory={this.factory}

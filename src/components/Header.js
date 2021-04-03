@@ -1,7 +1,10 @@
 import React from 'react';
+import './Header.css'
 
 export default function Header() {
     return (
-        <div>QA Toolbox</div>
+        <header>
+            <h1 className="title">QA Toolbox</h1>
+        </header>
     )
 }

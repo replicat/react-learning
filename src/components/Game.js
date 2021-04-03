@@ -1,4 +1,5 @@
 import React from 'react';
+import './Game.css'
 
 function calculateWinner(squares) {
     const lines = [
