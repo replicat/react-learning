@@ -1,6 +1,6 @@
 import React from 'react';
 
-class Navigation extends React.Component {
+class Toolbox extends React.Component {
     onAddDragMouseDown = (event) => {
         const layout = this.props.layoutRef.current
         const maximizedTabset = this.props.maximizedTabset
@@ -26,4 +26,4 @@ class Navigation extends React.Component {
     }
 }
 
-export default Navigation;
+export default Toolbox;

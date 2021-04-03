@@ -1,7 +1,6 @@
 import React from 'react';
 import FlexLayout from "flexlayout-react";
-import Game from './Game'
-import Navigation from './Navigation'
+import Toolbox from './Toolbox'
 
 var config = {
     global: {
@@ -22,12 +21,12 @@ var config = {
                 {
                     "type": "tab",
                     "enableClose": false,
-                    "name": "Terminal",
+                    "name": "Rails Console",
                     "component": "button",
                     "enableDrag": false,
                 }
             ],
-            "selected": 1,
+            "selected": -1,
             "enableDrop": false,
         },
         {
@@ -37,8 +36,8 @@ var config = {
                 {
                     "type": "tab",
                     "enableClose": false,
-                    "name": "Navigation",
-                    "component": "Navigation",
+                    "name": "Toolbox",
+                    "component": "Toolbox",
                     "enableDrag": false,
                 }
             ],
@@ -58,8 +57,8 @@ var config = {
                 "children": [
                     {
                         "type": "tab",
-                        "name": "Game",
-                        "component": "Game",
+                        "name": "button",
+                        "component": "button",
                     },
                     {
                         "type": "tab",
@@ -84,7 +83,7 @@ var config = {
     }
 };
 
-class Layout extends React.Component {
+class Main extends React.Component {
     constructor(props) {
         super(props);
         const model = FlexLayout.Model.fromJson(config);
@@ -99,11 +98,8 @@ class Layout extends React.Component {
         if (component === "button") {
             return <button>{node.getName()}</button>;
         }
-        else if (component === "Game") {
-            return <Game />;
-        }
-        else if (component === "Navigation") {
-            return <Navigation layoutRef={this.layoutRef} maximizedTabset={maximizedTabset} />
+        else if (component === "Toolbox") {
+            return <Toolbox layoutRef={this.layoutRef} maximizedTabset={maximizedTabset} />
         }
         return null;
     }
@@ -120,4 +116,4 @@ class Layout extends React.Component {
     }
 }
 
-export default Layout;
+export default Main;
