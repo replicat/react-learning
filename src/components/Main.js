@@ -2,6 +2,7 @@ import React from 'react';
 import FlexLayout from "flexlayout-react";
 import Toolbox from './Toolbox'
 import GettingStarted from './GettingStarted'
+import MagicLink from './MagicLink'
 
 var INITIAL_LAYOUT = {
     global: {
@@ -83,6 +84,9 @@ class Main extends React.Component {
         }
         else if (component === "GettingStarted") {
             return <GettingStarted />
+        }
+        else if (component === "MagicLink") {
+            return <MagicLink />
         }
 
         return null;

@@ -18,7 +18,11 @@ var INITIAL_NODES = [
                 label: "Create Account"
             },
             {
-                label: "Generate Magic Link"
+                label: "Generate Magic Link",
+                nodeData: {
+                    component: "MagicLink",
+                    name: "Generate Magic Link",
+                },
             },
         ],
     },
