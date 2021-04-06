@@ -19,6 +19,14 @@ body {
     height: 100%;
 }
 
+.flexlayout__tab {
+    background: #090909;
+}
+
+.flexlayout__tabset, .flexlayout__border {
+    font-family: $pt-font-family;
+}
+
 .flexlayout__tabset-selected {
     background: #333333;
   }
