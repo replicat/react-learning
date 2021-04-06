@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import FlexLayout from "flexlayout-react";
 import Toolbox from './Toolbox'
 import GettingStarted from './GettingStarted'
@@ -67,20 +67,14 @@ var INITIAL_LAYOUT = {
     }
 };
 
-class Main extends React.Component {
-    constructor(props) {
-        super(props);
-        const model = FlexLayout.Model.fromJson(INITIAL_LAYOUT);
-        this.state = { model: model };
-        this.layoutRef = React.createRef();
-    }
+export default function Main() {
+    const [model] = useState(FlexLayout.Model.fromJson(INITIAL_LAYOUT));
+    const layoutRef = useRef(null);
 
-    factory = (node) => {
-        const model = this.state.model;
-
+    const factory = (node) => {
         var component = node.getComponent();
         if (component === "Toolbox") {
-            return <Toolbox layoutRef={this.layoutRef} model={model} />
+            return <Toolbox layoutRef={layoutRef} model={model} />
         }
         else if (component === "GettingStarted") {
             return <GettingStarted />
@@ -92,16 +86,12 @@ class Main extends React.Component {
         return null;
     }
 
-    render() {
-        return (
-            <FlexLayout.Layout
-                className="layout"
-                ref={this.layoutRef}
-                model={this.state.model}
-                factory={this.factory}
-            />
-        )
-    }
+    return (
+        <FlexLayout.Layout
+            className="layout"
+            ref={layoutRef}
+            model={model}
+            factory={factory}
+        />
+    )
 }
-
-export default Main;
